@@ -128,7 +128,7 @@ class IPAdapter:
                     elif key.startswith("ip_adapter."):
                         state_dict["ip_adapter"][key.replace("ip_adapter.", "")] = f.get_tensor(key)
         else:
-            state_dict = torch.load(self.ip_ckpt, map_location="cpu")
+            state_dict = torch.load(self.ip_ckpt, map_location="cpu", weights_only=True)
         self.image_proj_model.load_state_dict(state_dict["image_proj"])
         ip_layers = torch.nn.ModuleList(self.pipe.unet.attn_processors.values())
         ip_layers.load_state_dict(state_dict["ip_adapter"])
